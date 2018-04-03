@@ -11,6 +11,12 @@ class FolderDescription
 {
     public string Name;
     public int MaxLength, CurrentLength;
+    public bool CheckLength(int length)
+    {
+        if (MaxLength - CurrentLength >= length)
+            return true;
+        return false;
+    }
 }
 
 static class BaseOperations
@@ -41,7 +47,7 @@ static class BaseOperations
     {
         throw new NotImplementedException();
     }
-    static public void MoveFile(int SouceIndex, int DestinationIndex)
+    static public void MoveFile(FileDescription SouceFile, FolderDescription DestinationFolder)
     {
         throw new NotImplementedException();
     }
