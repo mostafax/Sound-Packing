@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 /// <summary>
 /// A class containing the description of a file
@@ -64,6 +65,7 @@ static class BaseOperations
     /// <summary>
     /// Create a new folder 
     /// </summary>
+    
     /// <returns>
     /// The newly created folder
     /// </returns>
