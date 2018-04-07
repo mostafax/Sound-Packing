@@ -103,8 +103,9 @@ public class Audoios
 
 
             sr.Close();
-            //Reading the Max Lenght of the File
-            FileStream f = new FileStream("readme.txt", FileMode.Open);
+        //Reading the Number of Audio of the File
+        //Reading the Max Lenght of the Floder
+        FileStream f = new FileStream("readme.txt", FileMode.Open);
             StreamReader s = new StreamReader(f);
             s.ReadLine();
             string[] Temp = new string[2];
@@ -119,21 +120,49 @@ public class Audoios
             {
                 folders[i].free_space = size_of_rec;
             }
+    
 
-
-
-            throw new NotImplementedException();
-        }
         /// <summary>
-        /// Create a new folder 
+        /// Create Once folder OUTPUT 
         /// </summary>
+  
+        // Specify the directory you want to manipulate.
+        // Always Change it on yor PC
+        string path = @"C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\OUTPUT";
 
-        /// <returns>
-        /// The newly created folder
-        /// </returns>
-        static public FolderDescription ConstructFolder()
+        // Try to create the directory OUTPUT File Once.
+        DirectoryInfo di = Directory.CreateDirectory(path);
+
+        throw new NotImplementedException();
+    }
+    /// <summary>
+    /// Create a new folder 
+    /// </summary>
+
+    /// <returns>
+    /// The newly created folder
+    /// </returns>
+    static int i=1;
+    static public FolderDescription ConstructFolder()
         {
-            throw new NotImplementedException();
+
+        // Specify the directory you want to manipulate.
+        // Always Change it on yor PC
+        //Creating Folder With Numbers
+        string path = @"C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\OUTPUT\"+i;
+        i++;
+        // Try to create the directory.
+        DirectoryInfo di = Directory.CreateDirectory(path);
+        FolderDescription f = new FolderDescription()
+        {
+            Name = i.ToString(),
+            MaxLength = 100, //Max Space in One Folder
+            CurrentLength = 0,
+        };
+        folders.Add(f);
+        return f;
+
+        throw new NotImplementedException();
         }
         /// <summary>
         /// move the files to the folder
