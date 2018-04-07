@@ -45,6 +45,8 @@ public class Audoios
     /// <summary>
     /// The class that contains the lowest level of code to be utilized by higher classes
     /// </summary>
+}
+
     static class BaseOperations
     {
         //private
@@ -147,4 +149,4 @@ public class Audoios
             throw new NotImplementedException();
         }
     }
-}
+
