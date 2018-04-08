@@ -133,8 +133,7 @@ public class Audoios
         // Try to create the directory OUTPUT File Once.
         DirectoryInfo di = Directory.CreateDirectory(path);
 
-        throw new NotImplementedException();
-    }
+         }
     /// <summary>
     /// Create a new folder 
     /// </summary>
@@ -160,9 +159,10 @@ public class Audoios
             CurrentLength = 0,
         };
         folders.Add(f);
+        // Returning the folder
         return f;
-
-        throw new NotImplementedException();
+        
+       
         }
         /// <summary>
         /// move the files to the folder
@@ -175,6 +175,8 @@ public class Audoios
         /// </param>
         static public void MoveFile(FileDescription SouceFile, FolderDescription DestinationFolder)
         {
+
+
             throw new NotImplementedException();
         }
     }
