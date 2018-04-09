@@ -28,7 +28,7 @@ class FolderDescription
 /// <summary>
 /// The Record and Its Details
 /// </summary>
-public class Records
+public class Folder
 {
     public int hourse, min, sec;
     public long free_space;
@@ -40,100 +40,113 @@ public class Records
 public class Audoios
 {
     public string name;
-    public int hourse, min, sec, total_in_sec;
+    public int hourse, min, sec, total_in_sec, index;
 
     /// <summary>
     /// The class that contains the lowest level of code to be utilized by higher classes
     /// </summary>
 }
 
-    static class BaseOperations
+static class BaseOperations
+{
+    //private
+    static private List<FileDescription> files;
+    static private List<FolderDescription> folders;
+    static public List<Audoios> Audoi_files = new List<Audoios>();
+    static public List<Folder> Audoi_Folders = new List<Folder>();
+    static public int max_size = 0;
+    static public int num_of_rec = 0;
+
+    //public
+    /// <summary>
+    /// A list containing description of target files
+    /// </summary>
+    static public List<FileDescription> Files
     {
-        //private
-        static private List<FileDescription> files;
-        static private List<FolderDescription> folders;
-        //public
-        /// <summary>
-        /// A list containing description of target files
-        /// </summary>
-        static public List<FileDescription> Files
+        get
         {
-            get
-            {
-                return files;
-            }
+            return files;
         }
-        /// <summary>
-        /// A list containing description of target folders
-        /// </summary>
-        static public List<FolderDescription> Folders
+    }
+    /// <summary>
+    /// A list containing description of target folders
+    /// </summary>
+    static public List<FolderDescription> Folders
+    {
+        get
         {
-            get
-            {
-                return folders;
-            }
+            return folders;
         }
-        /// <summary>
-        /// initlaize the two lists (file,folder)
-        /// </summary>
-        static public void Initlaize()
+    }
+    /// <summary>
+    /// initlaize the two lists (Audoi_files,Folders)
+    /// </summary>
+    /// 
+    public static void Initlaize(string FileName1, string FileName2)
+    {
+        //Reading From AudiosInfo ..
+        FileStream fs = new FileStream(FileName1, FileMode.Open);
+        StreamReader sr = new StreamReader(fs);
+        //Reading the first line in the File which contain the Nember of Audios Files..
+        string num_of_records = sr.ReadLine();
+        //Converting the string value into int by using TypeCasting..
+        num_of_rec = (int)num_of_records[0] - '0';
+        //Makeing Array of string to hold the Data from File to split it..
+        string[] records = new string[num_of_rec];
+        //Makeing a Temp Variable to hold the Data and push it in the List..
+        //Loop to Get the Data and split it..
+        for (int i = 0; i < num_of_rec; i++)
         {
+            Audoios aud = new Audoios();
+            records = sr.ReadLine().Split(' ');
+            aud.name = records[0];
+            string[] temp = records[1].Split(':');
+            aud.hourse = int.Parse(temp[0]);
+            aud.min = int.Parse(temp[1]);
+            aud.sec = int.Parse(temp[2]);
+            aud.total_in_sec = aud.hourse * 3600 + aud.min * 60 + aud.sec;
+            aud.index = i + 1;
+            Audoi_files.Add(aud);
+        }
 
-            //Reading From AudiosInfo 
-            FileStream fs = new FileStream("AudiosInfo.txt", FileMode.Open);
-            StreamReader sr = new StreamReader(fs);
-             //Reading the Number of the Records 
-            string num_of_records = sr.ReadLine();
-            int num_of_rec = (int)num_of_records[0] - '0';
-            string[] records = new string[num_of_rec];
-            Audoios[] aud = new Audoios[num_of_rec];
-
-            for (int i = 0; i < num_of_rec; i++)
-            {
-                records = sr.ReadLine().Split(' ');
-                aud[i].name = records[0];
-                string[] temp = records[1].Split(':');
-                aud[i].hourse = int.Parse(temp[0]);
-                aud[i].min = int.Parse(temp[1]);
-                aud[i].sec = int.Parse(temp[2]);
-                //Seting all Values to Seconds
-                aud[i].total_in_sec = aud[i].hourse * 3600 + aud[i].min * 60 + aud[i].sec;
-                Console.WriteLine(aud[i].total_in_sec);
-            }
+        //Closing the Folder after Geting the Data..
+        sr.Close();
+        //Reading from Readme to konw the Max_Size of Folder..
+        FileStream f = new FileStream(FileName2, FileMode.Open);
+        StreamReader s = new StreamReader(f);
+        s.ReadLine();
+        string[] Temp = new string[2];
+        string[] size = new string[2];
+        Temp = s.ReadLine().Split('=');
+        size = Temp[1].Split(' ');
+        //Closing the File after Reading from it..
+        s.Close();
+        ////Converting the string value into int by using TypeCasting..
+        max_size = int.Parse(size[1]);
 
 
-            sr.Close();
-        //Reading the Number of Audio of the File
-        //Reading the Max Lenght of the Floder
-        FileStream f = new FileStream("readme.txt", FileMode.Open);
-            StreamReader s = new StreamReader(f);
-            s.ReadLine();
-            string[] Temp = new string[2];
-            string[] size = new string[2];
-            Temp = s.ReadLine().Split('=');
-            size = Temp[1].Split(' ');
-            s.Close();
+    }
+    public static void SortInIncreasing()
+    {
+        Audoi_files.Sort((x, y) => x.total_in_sec.CompareTo(y.total_in_sec));
+    }
 
-            int size_of_rec = int.Parse(size[1]);
-            Records[] folders = new Records[num_of_rec];
-            for (int i = 0; i < num_of_rec; i++)
-            {
-                folders[i].free_space = size_of_rec;
-            }
-    
+    public static void SortInDecreasing()
+    {
+        Audoi_files.Sort((x, y) => y.total_in_sec.CompareTo(x.total_in_sec));
+    }
+    /// <summary>
+    /// Create Once folder OUTPUT 
+    /// </summary>
 
-        /// <summary>
-        /// Create Once folder OUTPUT 
-        /// </summary>
-  
-        // Specify the directory you want to manipulate.
-        // Always Change it on yor PC
-        string path = @"C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\OUTPUT";
+    // Specify the directory you want to manipulate.
+    // Always Change it on yor PC
+    // string path = @"C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\OUTPUT";
 
-        // Try to create the directory OUTPUT File Once.
-        DirectoryInfo di = Directory.CreateDirectory(path);
+    // Try to create the directory OUTPUT File Once.
+    //DirectoryInfo di = Directory.CreateDirectory(path);
 
-         }
+
     /// <summary>
     /// Create a new folder 
     /// </summary>
@@ -141,14 +154,14 @@ public class Audoios
     /// <returns>
     /// The newly created folder
     /// </returns>
-    static int i=1;
+    static int i = 1;
     static public FolderDescription ConstructFolder()
-        {
+    {
 
         // Specify the directory you want to manipulate.
         // Always Change it on yor PC
         //Creating Folder With Numbers
-        string path = @"C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\OUTPUT\"+i;
+        string path = @"C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\OUTPUT\" + i;
         i++;
         // Try to create the directory.
         DirectoryInfo di = Directory.CreateDirectory(path);
@@ -161,23 +174,23 @@ public class Audoios
         folders.Add(f);
         // Returning the folder
         return f;
-        
-       
-        }
-        /// <summary>
-        /// move the files to the folder
-        /// </summary>
-        /// <param name="SouceFile">
-        /// A FileDescription object containing the description of the source file that is meant to be moved
-        /// </param>
-        /// <param name="DestinationFolder">
-        /// A FolderDescription object containing the description of the target folder that the file will be moved to
-        /// </param>
-        static public void MoveFile(FileDescription SouceFile, FolderDescription DestinationFolder)
-        {
 
 
-            throw new NotImplementedException();
-        }
     }
+    /// <summary>
+    /// move the files to the folder
+    /// </summary>
+    /// <param name="SouceFile">
+    /// A FileDescription object containing the description of the source file that is meant to be moved
+    /// </param>
+    /// <param name="DestinationFolder">
+    /// A FolderDescription object containing the description of the target folder that the file will be moved to
+    /// </param>
+    static public void MoveFile(FileDescription SouceFile, FolderDescription DestinationFolder)
+    {
+
+
+        throw new NotImplementedException();
+    }
+}
 
