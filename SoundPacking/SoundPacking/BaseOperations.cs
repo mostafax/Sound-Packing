@@ -30,17 +30,21 @@ class FolderDescription
 /// </summary>
 public class Folder
 {
-    public int hourse, min, sec;
+    public int hours, min, sec;
     public long free_space;
+    /// <summary>
+    /// used in best fit 
+    /// </summary>
+    public List<Audios> FolderAudios = new List<Audios>();
 };
 
 /// <summary>
 /// The Aduios and Its Details
 /// </summary>
-public class Audoios
+public class Audios
 {
     public string name;
-    public int hourse, min, sec, total_in_sec, index;
+    public int hours, min, sec, total_in_sec, index;
 
     /// <summary>
     /// The class that contains the lowest level of code to be utilized by higher classes
@@ -52,8 +56,8 @@ static class BaseOperations
     //private
     static private List<FileDescription> files;
     static private List<FolderDescription> folders;
-    static public List<Audoios> Audoi_files = new List<Audoios>();
-    static public List<Folder> Audoi_Folders = new List<Folder>();
+    static public List<Audios> Audio_files = new List<Audios>();
+    static public List<Folder> Audio_Folders = new List<Folder>();
     static public int max_size = 0;
     static public int num_of_rec = 0;
 
@@ -79,7 +83,7 @@ static class BaseOperations
         }
     }
     /// <summary>
-    /// initlaize the two lists (Audoi_files,Folders)
+    /// initlaize the two lists (Audio_files,Folders)
     /// </summary>
     /// 
     public static void Initlaize(string FileName1, string FileName2)
@@ -97,16 +101,16 @@ static class BaseOperations
         //Loop to Get the Data and split it..
         for (int i = 0; i < num_of_rec; i++)
         {
-            Audoios aud = new Audoios();
+            Audios aud = new Audios();
             records = sr.ReadLine().Split(' ');
             aud.name = records[0];
             string[] temp = records[1].Split(':');
-            aud.hourse = int.Parse(temp[0]);
+            aud.hours = int.Parse(temp[0]);
             aud.min = int.Parse(temp[1]);
             aud.sec = int.Parse(temp[2]);
-            aud.total_in_sec = aud.hourse * 3600 + aud.min * 60 + aud.sec;
+            aud.total_in_sec = aud.hours * 3600 + aud.min * 60 + aud.sec;
             aud.index = i + 1;
-            Audoi_files.Add(aud);
+            Audio_files.Add(aud);
         }
 
         //Closing the Folder after Geting the Data..
@@ -128,12 +132,12 @@ static class BaseOperations
     }
     public static void SortInIncreasing()
     {
-        Audoi_files.Sort((x, y) => x.total_in_sec.CompareTo(y.total_in_sec));
+        Audio_files.Sort((x, y) => x.total_in_sec.CompareTo(y.total_in_sec));
     }
 
     public static void SortInDecreasing()
     {
-        Audoi_files.Sort((x, y) => y.total_in_sec.CompareTo(x.total_in_sec));
+        Audio_files.Sort((x, y) => y.total_in_sec.CompareTo(x.total_in_sec));
     }
     /// <summary>
     /// Create Once folder OUTPUT 

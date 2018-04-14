@@ -1,1 +1,8 @@
 C:\Users\moham\Desktop\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\SoundPacking.exe.config
+F:\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\SoundPacking.exe.config
+F:\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\SoundPacking.exe
+F:\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\SoundPacking.pdb
+F:\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.csprojResolveAssemblyReference.cache
+F:\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.csproj.CoreCompileInputs.cache
+F:\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.exe
+F:\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.pdb
