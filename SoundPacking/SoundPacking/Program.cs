@@ -11,7 +11,8 @@ namespace SoundPacking
         static void Main(string[] args)
         {
             //BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt");
-            //BaseOperations.SortInDecreasing();
+            // BaseOperations.SortInDecreasing();
+            // FittingOperations.worst_fit(@"c:\Audios", @"c:\Output\[4] folderfilling");
             FittingOperations.filling.write(@"c:\Audios", @"c:\Output\[4] folderfilling");
         }
     }

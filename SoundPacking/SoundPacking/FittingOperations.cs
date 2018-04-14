@@ -9,31 +9,43 @@ static class FittingOperations
 {
     public static class filling
     {
-        public static int count = 0;
+        public static int count = 0, MaxCount = 0;
         public static List<Audoios> Temp_aud = new List<Audoios>();
-        public static List<List<Audoios>> list = new List<List<Audoios>>();
+        public static List<Audoios> ans = new List<Audoios>();
         public static int fill(int i)
         {
             int sol1 = 0, sol2 = 0;
             if (count == BaseOperations.max_size)
             {
-                list.Add(new List<Audoios>(Temp_aud));
+                if (count > MaxCount)
+                {
+                    MaxCount = count;
+                    ans = new List<Audoios>(Temp_aud);
+                }
                 return 0;
             }
             if (count > BaseOperations.max_size)
                 return -1;
             if (i >= BaseOperations.num_of_rec)
-                return -1;
+            {
+                if (count > MaxCount)
+                {
+                    MaxCount = count;
+                    ans = new List<Audoios>(Temp_aud);
+                }
+                return 0;
+            }
             if ((count + BaseOperations.Audoi_files[i].total_in_sec) <= BaseOperations.max_size)
             {
                 Temp_aud.Add(BaseOperations.Audoi_files[i]);
                 count += BaseOperations.Audoi_files[i].total_in_sec;
-                sol1 = fill(i + 1) + 1;
+                sol1 = fill(i + 1) + count;
                 Temp_aud.RemoveAt(Temp_aud.Count - 1);
                 count -= BaseOperations.Audoi_files[i].total_in_sec;
             }
 
             sol2 = fill(i + 1);
+
 
             return Math.Max(sol1, sol2);
         }
@@ -59,8 +71,8 @@ static class FittingOperations
                 destination = "";
                 FileName = path;
                 DirectoryInfo di;
-                no = fill(0);
-
+                fill(0);
+                no = ans.Count;
                 if (no == 1)
                 {
                     for (int num = 0; num < BaseOperations.Audoi_files.Count; num++)
@@ -92,8 +104,8 @@ static class FittingOperations
                 for (; i < no; i++)
                 {
                     source = Source;
-                    source += @"\" + (list[0][w3].index) + ".mp3";
-                    destination = path + @"\" + (list[0][w3].index) + ".mp3";
+                    source += @"\" + (ans[w3].index) + ".mp3";
+                    destination = path + @"\" + (ans[w3].index) + ".mp3";
                     System.IO.File.Copy(source, destination);
                     w3++;
                 }
@@ -104,10 +116,10 @@ static class FittingOperations
                 Audoios tem = new Audoios();
                 for (int j = 0; j < no; j++)
                 {
-                    w.WriteLine(list[0][j].name + " " + list[0][j].hourse + ":" + list[0][j].min + ":" + list[0][j].sec);
-                    tem.hourse += list[0][j].hourse;
-                    tem.min += list[0][j].min;
-                    tem.sec += list[0][j].sec;
+                    w.WriteLine(ans[j].name + " " + ans[j].hourse + ":" + ans[j].min + ":" + ans[j].sec);
+                    tem.hourse += ans[j].hourse;
+                    tem.min += ans[j].min;
+                    tem.sec += ans[j].sec;
                 }
                 w.WriteLine(tem.hourse + ":" + tem.min + ":" + tem.sec);
                 k++;
@@ -115,7 +127,7 @@ static class FittingOperations
                 int var = 0;
                 for (int it = 0; it < no; it++)
                 {
-                    var = list[0][it].index - 1 - h;
+                    var = ans[it].index - 1 - h;
                     if (var < 0)
                         var = 0;
                     BaseOperations.Audoi_files.RemoveAt(var);
@@ -123,9 +135,9 @@ static class FittingOperations
                 }
 
                 BaseOperations.num_of_rec -= no;
-                list[0].Clear();
-                list.Clear();
+                ans.Clear();
                 count = 0;
+                MaxCount = 0;
 
             }
         }
