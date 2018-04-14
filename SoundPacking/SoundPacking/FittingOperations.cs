@@ -270,6 +270,119 @@ static class FittingOperations
 
 
 
+    static public void First_fit(string Source, string Destination)
+    {
+        BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt");
+        BaseOperations.SortInDecreasing();
+        string path = Destination;
+        if (!Directory.Exists(path))
+        {
+            DirectoryInfo di = Directory.CreateDirectory(path);
+        }
+        int k = 1;
+        string FileName = path;
+        string source = Source;
+        string destination = "";
+        for (int i = 0; i < BaseOperations.num_of_rec; i++)
+        {
+            path = Destination;
+            source = Source;
+            destination = "";
+            FileName = path;
+            int directoryCount = System.IO.Directory.GetDirectories(path).Length;
+            long max = 0;
+            int index = 0;
+            bool test = true;
+            Folder Temp_folder = new Folder();
+            if (directoryCount == 0)
+            {
+                path += @"\f" + k;
+                DirectoryInfo di = Directory.CreateDirectory(path);
+                Temp_folder.hourse = BaseOperations.Audoi_files[i].hourse;
+                Temp_folder.min = BaseOperations.Audoi_files[i].min;
+                Temp_folder.sec = BaseOperations.Audoi_files[i].sec;
+                Temp_folder.free_space = BaseOperations.max_size;
+                Temp_folder.free_space -= BaseOperations.Audoi_files[i].total_in_sec;
+                BaseOperations.Audoi_Folders.Add(Temp_folder);
+                source += @"\" + (BaseOperations.Audoi_files[i].index) + ".mp3";
+                destination = path + @"\" + (BaseOperations.Audoi_files[i].index) + ".mp3";
+                System.IO.File.Move(source, destination);
+                FileName += @"\f" + k + "_MetaData.txt";
+                System.IO.FileStream F = new FileStream(FileName, FileMode.Create);
+                StreamWriter w = new StreamWriter(F);
+                w.WriteLine("f" + k);
+                w.WriteLine(BaseOperations.Audoi_files[i].name + " " + BaseOperations.Audoi_files[i].hourse + ":" + BaseOperations.Audoi_files[i].min + ":" + BaseOperations.Audoi_files[i].sec);
+                w.Close();
+                k++;
+
+            }
+            else
+            {
+                for (int j = 0; j < directoryCount; j++)
+                {
+                    if (BaseOperations.Audoi_Folders[j].free_space >= BaseOperations.Audoi_files[i].total_in_sec)
+                    {
+                        BaseOperations.Audoi_Folders[j].hourse += BaseOperations.Audoi_files[i].hourse;
+                        BaseOperations.Audoi_Folders[j].min += BaseOperations.Audoi_files[i].min;
+                        BaseOperations.Audoi_Folders[j].sec += BaseOperations.Audoi_files[i].sec;
+                        BaseOperations.Audoi_Folders[j].free_space -= BaseOperations.Audoi_files[i].total_in_sec;
+                        path += @"\f" + (j + 1);
+                        source += @"\" + (BaseOperations.Audoi_files[i].index) + ".mp3";
+                        destination = path + @"\" + (BaseOperations.Audoi_files[i].index) + ".mp3";
+                        System.IO.File.Move(source, destination);
+                        FileName += @"\f" + (j + 1) + "_MetaData.txt";
+                        System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
+                        StreamWriter w = new StreamWriter(F);
+                        w.WriteLine(BaseOperations.Audoi_files[i].name + " " + BaseOperations.Audoi_files[i].hourse + ":" + BaseOperations.Audoi_files[i].min + ":" + BaseOperations.Audoi_files[i].sec);
+                        w.Close();
+                        test = false;
+                        break;
+
+                    }
+                }
+                if (test)
+                {
+                    path = Destination;
+                    source = Source;
+                    destination = "";
+                    FileName = path;
+                    path += @"\f" + k;
+                    DirectoryInfo di = Directory.CreateDirectory(path);
+                    Temp_folder.hourse = BaseOperations.Audoi_files[i].hourse;
+                    Temp_folder.min = BaseOperations.Audoi_files[i].min;
+                    Temp_folder.sec = BaseOperations.Audoi_files[i].sec;
+                    Temp_folder.free_space = BaseOperations.max_size;
+                    Temp_folder.free_space -= BaseOperations.Audoi_files[i].total_in_sec;
+                    BaseOperations.Audoi_Folders.Add(Temp_folder);
+                    source += @"\" + (BaseOperations.Audoi_files[i].index) + ".mp3";
+                    destination = path + @"\" + (BaseOperations.Audoi_files[i].index) + ".mp3";
+                    System.IO.File.Move(source, destination);
+                    FileName += @"\f" + k + "_MetaData" + ".txt";
+                    System.IO.FileStream F = new FileStream(FileName, FileMode.Create);
+                    StreamWriter w = new StreamWriter(F);
+                    w.WriteLine("f" + k);
+                    w.WriteLine(BaseOperations.Audoi_files[i].name + " " + BaseOperations.Audoi_files[i].hourse + ":" + BaseOperations.Audoi_files[i].min + ":" + BaseOperations.Audoi_files[i].sec);
+                    w.Close();
+                    k++;
+                }
+
+            }
+        }
+        int no = 0;
+        FileName = Destination + @"\f" + (no + 1) + "_MetaData.txt";
+        for (; no < k - 1; no++)
+        {
+            FileName = @"c:\Output\[1] FirstfitDecreasing\f" + (no + 1) + "_MetaData.txt";
+            System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
+            StreamWriter w = new StreamWriter(F);
+            w.WriteLine(BaseOperations.Audoi_Folders[no].hourse + ":" + BaseOperations.Audoi_Folders[no].min + ":" + BaseOperations.Audoi_Folders[no].sec);
+            w.Close();
+        }
+
+    }
+    //wwwwww
+
+
 
 
     /// <summary>
