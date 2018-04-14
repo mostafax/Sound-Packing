@@ -12,6 +12,7 @@ static class FittingOperations
         public static int count = 0, MaxCount = 0;
         public static List<Audoios> Temp_aud = new List<Audoios>();
         public static List<Audoios> ans = new List<Audoios>();
+        public static int [,]dp=new int [200,800];
         public static int fill(int i)
         {
             int sol1 = 0, sol2 = 0;
@@ -35,6 +36,8 @@ static class FittingOperations
                 }
                 return 0;
             }
+            if (dp[i,count] != -2)
+                return dp[i,count];
             if ((count + BaseOperations.Audoi_files[i].total_in_sec) <= BaseOperations.max_size)
             {
                 Temp_aud.Add(BaseOperations.Audoi_files[i]);
@@ -47,11 +50,16 @@ static class FittingOperations
             sol2 = fill(i + 1);
 
 
-            return Math.Max(sol1, sol2);
+            return dp[i,count]= Math.Max(sol1, sol2);
         }
         public static void write(string Source, string Destination)
         {
             BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt");
+            for (int i=0;i<200;i++)
+            {
+                for (int j = 0; j < 800; j++)
+                    dp[i, j] = -2;
+            }
             string path = Destination;
             if (!Directory.Exists(path))
             {
@@ -73,6 +81,12 @@ static class FittingOperations
                 DirectoryInfo di;
                 fill(0);
                 no = ans.Count;
+                for (int r=0; r<200; r++)
+
+                {
+                    for (int j = 0; j < 800; j++)
+                        dp[i, j] = -2;
+                }
                 if (no == 1)
                 {
                     for (int num = 0; num < BaseOperations.Audoi_files.Count; num++)
