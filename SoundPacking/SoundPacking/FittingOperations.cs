@@ -7,6 +7,142 @@ using System.Collections.Generic;
 /// </summary>
 static class FittingOperations
 {
+
+
+
+
+
+
+
+
+
+
+
+
+    static public void worst_fitp(string Source, string Destination)
+    {
+        BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt");
+        PriorityQueue<Folder> PQ = new PriorityQueue<Folder>();
+        string path = Destination;
+        if (!Directory.Exists(path))
+        {
+            DirectoryInfo di = Directory.CreateDirectory(path);
+        }
+        int k = 1;
+        string FileName = path;
+        string source = Source;
+        string destination = "";
+        for (int i = 0; i < BaseOperations.num_of_rec; i++)
+        {
+            path = Destination;
+            source = Source;
+            destination = "";
+            FileName = path;
+            int directoryCount = System.IO.Directory.GetDirectories(path).Length;
+            //long max = 0;
+            int index = 0;
+            //bool test = false;
+            Folder Temp_folder = new Folder();
+            if (directoryCount == 0)
+            {
+                path += @"\f" + k;
+                DirectoryInfo di = Directory.CreateDirectory(path);
+                Temp_folder.hours = BaseOperations.Audio_files[i].hours;
+                Temp_folder.min = BaseOperations.Audio_files[i].min;
+                Temp_folder.sec = BaseOperations.Audio_files[i].sec;
+                Temp_folder.free_space = BaseOperations.max_size;
+                Temp_folder.free_space -= BaseOperations.Audio_files[i].total_in_sec;
+                Temp_folder.index = k;
+                BaseOperations.Audio_Folders.Add(Temp_folder);
+                PQ.Enqueue(Temp_folder);
+                source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                System.IO.File.Copy(source, destination);
+                FileName += @"\f" + k + "_MetaData.txt";
+                System.IO.FileStream F = new FileStream(FileName, FileMode.Create);
+                StreamWriter w = new StreamWriter(F);
+                w.WriteLine("f" + k);
+                w.WriteLine(BaseOperations.Audio_files[i].name + " " + BaseOperations.Audio_files[i].hours + ":" + BaseOperations.Audio_files[i].min + ":" + BaseOperations.Audio_files[i].sec);
+                w.Close();
+                k++;
+                index++;
+
+            }
+            else
+            {
+                if (PQ.Peek().free_space >= BaseOperations.Audio_files[i].total_in_sec)
+                {
+                    Folder temp = new Folder();
+                    temp = PQ.Peek();
+                    PQ.Dequeue();
+                    temp.hours += BaseOperations.Audio_files[i].hours;
+                    temp.min += BaseOperations.Audio_files[i].min;
+                    temp.sec += BaseOperations.Audio_files[i].sec;
+                    temp.free_space -= BaseOperations.Audio_files[i].total_in_sec;
+                    if (temp.free_space != 0)
+                    {
+                        PQ.Enqueue(temp);
+                    }
+                    // test = true;
+
+                    path += @"\f" + temp.index;
+                    source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    System.IO.File.Copy(source, destination);
+                    FileName += @"\f" + temp.index + "_MetaData.txt";
+                    System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
+                    StreamWriter w = new StreamWriter(F);
+                    w.WriteLine(BaseOperations.Audio_files[i].name + " " + BaseOperations.Audio_files[i].hours + ":" + BaseOperations.Audio_files[i].min + ":" + BaseOperations.Audio_files[i].sec);
+                    w.Close();
+                }
+                else
+                {
+                    path += @"\f" + k;
+                    DirectoryInfo di = Directory.CreateDirectory(path);
+                    Temp_folder.index = k;
+                    Temp_folder.hours = BaseOperations.Audio_files[i].hours;
+                    Temp_folder.min = BaseOperations.Audio_files[i].min;
+                    Temp_folder.sec = BaseOperations.Audio_files[i].sec;
+                    Temp_folder.free_space = BaseOperations.max_size;
+                    Temp_folder.free_space -= BaseOperations.Audio_files[i].total_in_sec;
+                    BaseOperations.Audio_Folders.Add(Temp_folder);
+                    PQ.Enqueue(Temp_folder);
+                    source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    System.IO.File.Copy(source, destination);
+                    FileName += @"\f" + k + "_MetaData" + ".txt";
+                    System.IO.FileStream F = new FileStream(FileName, FileMode.Create);
+                    StreamWriter w = new StreamWriter(F);
+                    w.WriteLine("f" + k);
+                    w.WriteLine(BaseOperations.Audio_files[i].name + " " + BaseOperations.Audio_files[i].hours + ":" + BaseOperations.Audio_files[i].min + ":" + BaseOperations.Audio_files[i].sec);
+                    w.Close();
+                    k++;
+                }
+            }
+
+        }
+        int no = 0;
+        FileName = Destination + @"\f" + (no + 1) + "_MetaData.txt";
+        for (; no < k - 1; no++)
+        {
+            FileName = @"c:\Output\[1] FirstfitDecreasing\f" + (no + 1) + "_MetaData.txt";
+            System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
+            StreamWriter w = new StreamWriter(F);
+            w.WriteLine(BaseOperations.Audio_Folders[no].hours + ":" + BaseOperations.Audio_Folders[no].min + ":" + BaseOperations.Audio_Folders[no].sec);
+            w.Close();
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
     public static class filling
     {
         public static int count = 0, MaxCount = 0;
@@ -96,8 +232,8 @@ static class FittingOperations
                         source = Source;
                         path += @"\f" + k;
                         di = Directory.CreateDirectory(path);
-                        source += @"\" + (BaseOperations.Audio_files[num].index) + ".mp3";
-                        destination = path + @"\" + (BaseOperations.Audio_files[num].index) + ".mp3";
+                        source += @"\" + (BaseOperations.Audio_files[num].index) + ".AMR";
+                        destination = path + @"\" + (BaseOperations.Audio_files[num].index) + ".AMR";
                         System.IO.File.Copy(source, destination);
                         Console.WriteLine(source + "  " + destination);
                         FileName += @"\f" + k + "_MetaData.txt";
@@ -118,8 +254,8 @@ static class FittingOperations
                 for (; i < no; i++)
                 {
                     source = Source;
-                    source += @"\" + (ans[w3].index) + ".mp3";
-                    destination = path + @"\" + (ans[w3].index) + ".mp3";
+                    source += @"\" + (ans[w3].index) + ".AMR";
+                    destination = path + @"\" + (ans[w3].index) + ".AMR";
                     System.IO.File.Copy(source, destination);
                     w3++;
                 }
@@ -192,9 +328,9 @@ static class FittingOperations
                 Temp_folder.free_space = BaseOperations.max_size;
                 Temp_folder.free_space -= BaseOperations.Audio_files[i].total_in_sec;
                 BaseOperations.Audio_Folders.Add(Temp_folder);
-                source += @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                System.IO.File.Move(source, destination);
+                source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                System.IO.File.Copy(source, destination);
                 FileName += @"\f" + k + "_MetaData.txt";
                 System.IO.FileStream F = new FileStream(FileName, FileMode.Create);
                 StreamWriter w = new StreamWriter(F);
@@ -222,9 +358,9 @@ static class FittingOperations
                     BaseOperations.Audio_Folders[index].sec += BaseOperations.Audio_files[i].sec;
                     BaseOperations.Audio_Folders[index].free_space -= BaseOperations.Audio_files[i].total_in_sec;
                     path += @"\f" + (index + 1);
-                    source += @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                    destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                    System.IO.File.Move(source, destination);
+                    source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    System.IO.File.Copy(source, destination);
                     FileName += @"\f" + (index + 1) + "_MetaData.txt";
                     System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
                     StreamWriter w = new StreamWriter(F);
@@ -241,9 +377,9 @@ static class FittingOperations
                     Temp_folder.free_space = BaseOperations.max_size;
                     Temp_folder.free_space -= BaseOperations.Audio_files[i].total_in_sec;
                     BaseOperations.Audio_Folders.Add(Temp_folder);
-                    source += @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                    destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                    System.IO.File.Move(source, destination);
+                    source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    System.IO.File.Copy(source, destination);
                     FileName += @"\f" + k + "_MetaData" + ".txt";
                     System.IO.FileStream F = new FileStream(FileName, FileMode.Create);
                     StreamWriter w = new StreamWriter(F);
@@ -259,7 +395,7 @@ static class FittingOperations
         FileName = Destination + @"\f" + (no + 1) + "_MetaData.txt";
         for (; no < k - 1; no++)
         {
-            FileName = @"c:\Output\[1] worstfit\f" + (no + 1) + "_MetaData.txt";
+            FileName = @"c:\Output\[1] worestfit\f" + (no + 1) + "_MetaData.txt";
             System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
             StreamWriter w = new StreamWriter(F);
             w.WriteLine(BaseOperations.Audio_Folders[no].hours + ":" + BaseOperations.Audio_Folders[no].min + ":" + BaseOperations.Audio_Folders[no].sec);
@@ -304,9 +440,9 @@ static class FittingOperations
                 Temp_folder.free_space = BaseOperations.max_size;
                 Temp_folder.free_space -= BaseOperations.Audio_files[i].total_in_sec;
                 BaseOperations.Audio_Folders.Add(Temp_folder);
-                source += @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                System.IO.File.Move(source, destination);
+                source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                System.IO.File.Copy(source, destination);
                 FileName += @"\f" + k + "_MetaData.txt";
                 System.IO.FileStream F = new FileStream(FileName, FileMode.Create);
                 StreamWriter w = new StreamWriter(F);
@@ -327,9 +463,9 @@ static class FittingOperations
                         BaseOperations.Audio_Folders[j].sec += BaseOperations.Audio_files[i].sec;
                         BaseOperations.Audio_Folders[j].free_space -= BaseOperations.Audio_files[i].total_in_sec;
                         path += @"\f" + (j + 1);
-                        source += @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                        destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                        System.IO.File.Move(source, destination);
+                        source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                        destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                        System.IO.File.Copy(source, destination);
                         FileName += @"\f" + (j + 1) + "_MetaData.txt";
                         System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
                         StreamWriter w = new StreamWriter(F);
@@ -354,9 +490,9 @@ static class FittingOperations
                     Temp_folder.free_space = BaseOperations.max_size;
                     Temp_folder.free_space -= BaseOperations.Audio_files[i].total_in_sec;
                     BaseOperations.Audio_Folders.Add(Temp_folder);
-                    source += @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                    destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".mp3";
-                    System.IO.File.Move(source, destination);
+                    source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                    System.IO.File.Copy(source, destination);
                     FileName += @"\f" + k + "_MetaData" + ".txt";
                     System.IO.FileStream F = new FileStream(FileName, FileMode.Create);
                     StreamWriter w = new StreamWriter(F);
@@ -492,7 +628,7 @@ static class FittingOperations
 
         static public void BestFitFilling(string InputFolderpath, string OutputFolderpath)
         {
-            BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt");
+         //   BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt");
             // creating output folder if not exist
             if (!Directory.Exists(OutputFolderpath))
             {

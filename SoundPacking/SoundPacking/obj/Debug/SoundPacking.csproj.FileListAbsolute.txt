@@ -6,3 +6,9 @@ F:\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.csprojResolve
 F:\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.csproj.CoreCompileInputs.cache
 F:\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.exe
 F:\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.pdb
+C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\SoundPacking.exe.config
+C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.exe
+C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.pdb
+C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\SoundPacking.exe
+C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\SoundPacking.pdb
+C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\obj\Debug\SoundPacking.csprojResolveAssemblyReference.cache
