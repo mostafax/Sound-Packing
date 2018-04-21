@@ -2,29 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-/// <summary>
-/// A class containing the description of a file
-/// </summary>
-class FileDescription
-{
-    public string Name;
-    public int Duration;
-}
 
-/// <summary>
-/// A class containing the description of a folder
-/// </summary>
-class FolderDescription
-{
-    public string Name;
-    public int MaxLength, CurrentLength;
-    public bool CheckLength(int length)
-    {
-        if (MaxLength - CurrentLength >= length)
-            return true;
-        return false;
-    }
-}
 /// <summary>
 /// The Record and Its Details
 /// </summary>
@@ -57,9 +35,6 @@ public class Audios
     /// The class that contains the lowest level of code to be utilized by higher classes
     /// </summary>
 }
-
-
-
 
 
 class PriorityQueue<T> where T : IComparable
@@ -157,8 +132,6 @@ class PriorityQueue<T> where T : IComparable
 static class BaseOperations
 {
     //private
-    static private List<FileDescription> files;
-    static private List<FolderDescription> folders;
     static public List<Audios> Audio_files = new List<Audios>();
     static public List<Folder> Audio_Folders = new List<Folder>();
     static public int max_size = 0;
@@ -168,23 +141,10 @@ static class BaseOperations
     /// <summary>
     /// A list containing description of target files
     /// </summary>
-    static public List<FileDescription> Files
-    {
-        get
-        {
-            return files;
-        }
-    }
     /// <summary>
     /// A list containing description of target folders
     /// </summary>
-    static public List<FolderDescription> Folders
-    {
-        get
-        {
-            return folders;
-        }
-    }
+
     /// <summary>
     /// initlaize the two lists (Audio_files,Folders)
     /// </summary>
@@ -241,70 +201,19 @@ static class BaseOperations
 
 
     }
+    /// <summary>
+    /// Sort In Increasing Order 
+    /// </summary>
     public static void SortInIncreasing()
     {
         Audio_files.Sort((x, y) => x.total_in_sec.CompareTo(y.total_in_sec));
     }
-
+    /// <summary>
+    /// Sort In Decreasing Order
+    /// </summary>
     public static void SortInDecreasing()
     {
         Audio_files.Sort((x, y) => y.total_in_sec.CompareTo(x.total_in_sec));
     }
-    /// <summary>
-    /// Create Once folder OUTPUT 
-    /// </summary>
 
-    // Specify the directory you want to manipulate.
-    // Always Change it on yor PC
-    // string path = @"C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\OUTPUT";
-
-    // Try to create the directory OUTPUT File Once.
-    //DirectoryInfo di = Directory.CreateDirectory(path);
-
-
-    /// <summary>
-    /// Create a new folder 
-    /// </summary>
-
-    /// <returns>
-    /// The newly created folder
-    /// </returns>
-    static int i = 1;
-    static public FolderDescription ConstructFolder()
-    {
-
-        // Specify the directory you want to manipulate.
-        // Always Change it on yor PC
-        //Creating Folder With Numbers
-        string path = @"C:\Users\Mostafax\Documents\GitHub\Sound-Packing-\SoundPacking\SoundPacking\bin\Debug\OUTPUT\" + i;
-        i++;
-        // Try to create the directory.
-        DirectoryInfo di = Directory.CreateDirectory(path);
-        FolderDescription f = new FolderDescription()
-        {
-            Name = i.ToString(),
-            MaxLength = 100, //Max Space in One Folder
-            CurrentLength = 0,
-        };
-        folders.Add(f);
-        // Returning the folder
-        return f;
-
-
-    }
-    /// <summary>
-    /// move the files to the folder
-    /// </summary>
-    /// <param name="SouceFile">
-    /// A FileDescription object containing the description of the source file that is meant to be moved
-    /// </param>
-    /// <param name="DestinationFolder">
-    /// A FolderDescription object containing the description of the target folder that the file will be moved to
-    /// </param>
-    static public void MoveFile(FileDescription SouceFile, FolderDescription DestinationFolder)
-    {
-
-        throw new NotImplementedException();
-    }
 }
-

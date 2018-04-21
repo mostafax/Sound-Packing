@@ -36,8 +36,8 @@ namespace SoundPacking
             ///
             ///
 
-            // FittingOperations.First_fit(@"c:\Audios", @"c:\Output\[1] FirstfitDecreasing");
-            FittingOperations.worst_fitp(@"c:\Audios", @"c:\Output\[1] FirstfitDecreasing");
+            FittingOperations.First_fit(@"c:\Audios", @"c:\Output\[1] FirstfitDecreasing");
+            //FittingOperations.worst_fitp(@"c:\Audios", @"c:\Output\[1] FirstfitDecreasing");
 
         }
     }
