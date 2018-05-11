@@ -1,3 +1,4 @@
+<html>
 # Sound-Packing-system
 
  Sound-Packing-system is a system that helps you to organize ur sound files Depending on their duration.
@@ -7,4 +8,5 @@ put ur sound files in one folder and a metadata file with them describes ur file
 
 # Running Sample For the Program
 
-<img src="""Program.png"></img>
+<img src="Program.png">
+</html>
