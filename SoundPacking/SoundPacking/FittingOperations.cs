@@ -8,20 +8,15 @@ using System.Collections.Generic;
 static class FittingOperations
 {
 
-
-
-
-
-
-
-
-
-
-
-
+    /// <summary>
+    /// The Avarge Complixty for worst_fit Priorty Queue Is O(NlogN)
+    /// </summary>
+    /// <param name="Source">Source of Data</param>
+    /// <param name="Destination"> Destination of Data</param>
     static public void worst_fitp(string Source, string Destination)
-    {
-        BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt");
+    {   
+        // Initlaize The Prameters
+        BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt"); // O(N)
         PriorityQueue<Folder> PQ = new PriorityQueue<Folder>();
         string path = Destination;
         if (!Directory.Exists(path))
@@ -32,7 +27,7 @@ static class FittingOperations
         string FileName = path;
         string source = Source;
         string destination = "";
-        for (int i = 0; i < BaseOperations.num_of_rec; i++)
+        for (int i = 0; i < BaseOperations.num_of_rec; i++) // O(N)
         {
             path = Destination;
             source = Source;
@@ -45,6 +40,7 @@ static class FittingOperations
             Folder Temp_folder = new Folder();
             if (directoryCount == 0)
             {
+                // Adding The Frist Folder
                 path += @"\f" + k;
                 DirectoryInfo di = Directory.CreateDirectory(path);
                 Temp_folder.hours = BaseOperations.Audio_files[i].hours;
@@ -70,18 +66,18 @@ static class FittingOperations
             }
             else
             {
-                if (PQ.Peek().free_space >= BaseOperations.Audio_files[i].total_in_sec)
+                if (PQ.Peek().free_space >= BaseOperations.Audio_files[i].total_in_sec) // O(n)
                 {
                     Folder temp = new Folder();
                     temp = PQ.Peek();
-                    PQ.Dequeue();
+                    PQ.Dequeue(); // O(1)
                     temp.hours += BaseOperations.Audio_files[i].hours;
                     temp.min += BaseOperations.Audio_files[i].min;
                     temp.sec += BaseOperations.Audio_files[i].sec;
                     temp.free_space -= BaseOperations.Audio_files[i].total_in_sec;
                     if (temp.free_space != 0)
                     {
-                        PQ.Enqueue(temp);
+                        PQ.Enqueue(temp); // O(nlogn)
                     }
                     // test = true;
 
@@ -123,7 +119,7 @@ static class FittingOperations
         }
         int no = 0;
         FileName = Destination + @"\f" + (no + 1) + "_MetaData.txt";
-        for (; no < k - 1; no++)
+        for (; no < k - 1; no++) // O(n)
         {
             FileName = @"c:\Output\[1] FirstfitDecreasing\f" + (no + 1) + "_MetaData.txt";
             System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
@@ -133,14 +129,6 @@ static class FittingOperations
         }
 
     }
-
-
-
-
-
-
-
-
 
 
     public static class filling
@@ -184,7 +172,7 @@ static class FittingOperations
             }
 
             sol2 = fill(i + 1);
-
+            
 
             return dp[i,count]= Math.Max(sol1, sol2);
         }
@@ -295,7 +283,10 @@ static class FittingOperations
 
 
 
-
+    /// <summary>
+    /// The Complicty of worist fit is O(N^2)
+    /// </summary>
+   
     static public void worst_fit(string Source, string Destination)
     {
         string path = Destination;
@@ -307,7 +298,7 @@ static class FittingOperations
         string FileName = path;
         string source = Source;
         string destination = "";
-        for (int i = 0; i < BaseOperations.num_of_rec; i++)
+        for (int i = 0; i < BaseOperations.num_of_rec; i++) // O(N)
         {
             path = Destination;
             source = Source;
@@ -342,9 +333,9 @@ static class FittingOperations
             }
             else
             {
-                for (int j = 0; j < directoryCount; j++)
+                for (int j = 0; j < directoryCount; j++) // O(N^2)
                 {
-                    if (BaseOperations.Audio_Folders[j].free_space > max && BaseOperations.Audio_Folders[j].free_space >= BaseOperations.Audio_files[i].total_in_sec)
+                    if (BaseOperations.Audio_Folders[j].free_space > max && BaseOperations.Audio_Folders[j].free_space >= BaseOperations.Audio_files[i].total_in_sec)  
                     {
                         max = BaseOperations.Audio_Folders[j].free_space;
                         index = j;
@@ -393,7 +384,7 @@ static class FittingOperations
         }
         int no = 0;
         FileName = Destination + @"\f" + (no + 1) + "_MetaData.txt";
-        for (; no < k - 1; no++)
+        for (; no < k - 1; no++) // O(N)
         {
             FileName = @"c:\Output\[1] worestfit\f" + (no + 1) + "_MetaData.txt";
             System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
@@ -404,15 +395,18 @@ static class FittingOperations
 
     }
 
-
-
+    /// <summary>
+    /// The Complixty of Frist Fit is  O(N^2)
+    /// </summary>
+    
     static public void First_fit(string Source, string Destination)
     {
         /// Initlaize the Prameters
         BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt");
         /// Sorting the Files 
-        BaseOperations.SortInDecreasing();
+        BaseOperations.SortInDecreasing();  //O(NlogN)
         string path = Destination;
+        // Adding the Frist file
         if (!Directory.Exists(path))
         {
             DirectoryInfo di = Directory.CreateDirectory(path);
@@ -421,7 +415,7 @@ static class FittingOperations
         string FileName = path;
         string source = Source;
         string destination = "";
-        for (int i = 0; i < BaseOperations.num_of_rec; i++)
+        for (int i = 0; i < BaseOperations.num_of_rec; i++) //O(N)
         {
             path = Destination;
             source = Source;
@@ -434,17 +428,23 @@ static class FittingOperations
             Folder Temp_folder = new Folder();
             if (directoryCount == 0)
             {
+                /// Creating the Frist folder
                 path += @"\f" + k;
                 DirectoryInfo di = Directory.CreateDirectory(path);
+
                 Temp_folder.hours = BaseOperations.Audio_files[i].hours;
                 Temp_folder.min = BaseOperations.Audio_files[i].min;
                 Temp_folder.sec = BaseOperations.Audio_files[i].sec;
                 Temp_folder.free_space = BaseOperations.max_size;
                 Temp_folder.free_space -= BaseOperations.Audio_files[i].total_in_sec;
+                // Satr el Folder El 5ayaly
                 BaseOperations.Audio_Folders.Add(Temp_folder);
+                // Real Transfering
                 source += @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
                 destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
+                // Copy mn El 5yaly to Real Folder
                 System.IO.File.Copy(source, destination);
+                /// Adding Data to Meta Data  Files
                 FileName += @"\f" + k + "_MetaData.txt";
                 System.IO.FileStream F = new FileStream(FileName, FileMode.Create);
                 StreamWriter w = new StreamWriter(F);
@@ -456,10 +456,12 @@ static class FittingOperations
             }
             else
             {
-                for (int j = 0; j < directoryCount; j++)
+                for (int j = 0; j < directoryCount; j++)  //O(N^2)
                 {
                     if (BaseOperations.Audio_Folders[j].free_space >= BaseOperations.Audio_files[i].total_in_sec)
                     {
+
+                        // Zy Ely Foo2
                         BaseOperations.Audio_Folders[j].hours += BaseOperations.Audio_files[i].hours;
                         BaseOperations.Audio_Folders[j].min += BaseOperations.Audio_files[i].min;
                         BaseOperations.Audio_Folders[j].sec += BaseOperations.Audio_files[i].sec;
@@ -469,6 +471,7 @@ static class FittingOperations
                         destination = path + @"\" + (BaseOperations.Audio_files[i].index) + ".AMR";
                         System.IO.File.Copy(source, destination);
                         FileName += @"\f" + (j + 1) + "_MetaData.txt";
+                        // Adding THe Remaning files in Folder
                         System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
                         StreamWriter w = new StreamWriter(F);
                         w.WriteLine(BaseOperations.Audio_files[i].name + " " + BaseOperations.Audio_files[i].hours + ":" + BaseOperations.Audio_files[i].min + ":" + BaseOperations.Audio_files[i].sec);
@@ -480,6 +483,7 @@ static class FittingOperations
                 }
                 if (test)
                 {
+                    // Adding in A new Folder w Zy El Frist Condition  
                     path = Destination;
                     source = Source;
                     destination = "";
@@ -508,7 +512,7 @@ static class FittingOperations
         }
         int no = 0;
         FileName = Destination + @"\f" + (no + 1) + "_MetaData.txt";
-        for (; no < k - 1; no++)
+        for (; no < k - 1; no++) //O(N)
         {
             FileName = @"c:\Output\[1] FirstfitDecreasing\f" + (no + 1) + "_MetaData.txt";
             System.IO.FileStream F = new FileStream(FileName, FileMode.Append);
@@ -518,13 +522,12 @@ static class FittingOperations
         }
 
     }
- 
 
 
 
-
- 
-
+    /// <summary>
+    ///  the Complitxty of BestFit is O(N^2)
+    /// </summary>
     static public class BestFit
     {
 
@@ -533,7 +536,7 @@ static class FittingOperations
         static public bool fits = false;
         static public void Best_fit()
         {
-            for (int i = 0; i < BaseOperations.Audio_files.Count; i++)
+            for (int i = 0; i < BaseOperations.Audio_files.Count; i++) //O(N)
             {
                 fits = false;
                 if (BFfolders.Count == 0)
@@ -550,8 +553,8 @@ static class FittingOperations
                 }
                 else
                 {
-                    BFfolders.Sort((x, y) => x.free_space.CompareTo(y.free_space));
-                    for (int j = 0; j < BFfolders.Count; j++)
+                    BFfolders.Sort((x, y) => x.free_space.CompareTo(y.free_space)); //O(NlogN)
+                    for (int j = 0; j < BFfolders.Count; j++) //O(N)
                     {
                         if (BFfolders[j].free_space >= BaseOperations.Audio_files[i].total_in_sec)
                         {
@@ -602,7 +605,7 @@ static class FittingOperations
                 DirectoryInfo di2 = Directory.CreateDirectory(bestfitpath);
             }
             //creating files with the names in BFfolders if not exist
-            for (int i = 0; i < BFfolders.Count; i++)
+            for (int i = 0; i < BFfolders.Count; i++) //O(N)
             {
                 string foldercount = (i + 1).ToString();
                 string folderpath = bestfitpath + @"\F" + foldercount;
@@ -615,7 +618,7 @@ static class FittingOperations
                 StreamWriter w1 = new StreamWriter(F1);
                 w1.WriteLine("F" + foldercount);
 
-                for (int j = 0; j < BFfolders[i].FolderAudios.Count; j++)
+                for (int j = 0; j < BFfolders[i].FolderAudios.Count; j++) //O(N^2)
                 {
                     string filepath = InputFolderpath + BFfolders[i].FolderAudios[j].name;
                     string filetarget = folderpath + @"\" + BFfolders[i].FolderAudios[j].name;
@@ -628,8 +631,6 @@ static class FittingOperations
                 w1.WriteLine(BFfolders[i].hours + ":" + BFfolders[i].min + ":" + BFfolders[i].sec);
                 w1.Close();
 
-
-
             }
 
 
@@ -638,6 +639,3 @@ static class FittingOperations
     }
 
 }
-
-
-

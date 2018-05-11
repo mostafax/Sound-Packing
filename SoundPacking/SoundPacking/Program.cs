@@ -18,7 +18,7 @@ namespace SoundPacking
             // Console.WriteLine(BaseOperations.Audio_files[i].total_in_sec);
             //BaseOperations.SortInDecreasing();
             // FittingOperations.worst_fit(@"c:\Audios", @"c:\Output\[1] worestfit");
-            //FittingOperations.filling.write(@"c:\Audios", @"c:\Output\[4] folderfilling");
+            FittingOperations.filling.write(@"c:\Audios", @"c:\Output\[4] folderfilling");
             //            BaseOperations.Initlaize("AudiosInfo.txt", "readme.txt");
 
             //    FittingOperations.BestFit.Best_fit();
@@ -32,11 +32,9 @@ namespace SoundPacking
 
 
             //   FittingOperations.BestFit.BestFitFilling(input, output);
-            ///Just more
-            ///
-            ///
+            
 
-            FittingOperations.First_fit(@"c:\Audios", @"c:\Output\[1] FirstfitDecreasing");
+           // FittingOperations.First_fit(@"c:\Audios", @"c:\Output\[1] FirstfitDecreasing");
             //FittingOperations.worst_fitp(@"c:\Audios", @"c:\Output\[1] FirstfitDecreasing");
 
         }
